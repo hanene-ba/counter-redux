@@ -1,24 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import {useSelector , useDispatch} from 'react-redux';
+import {increment , decrement, reset} from './actions/counterActions'
+import {loggIn} from './actions/isLoggedInAction'
 function App() {
+
+
+  const counter = useSelector(state => state.count);
+  const isLogged = useSelector(state => state.loggedIn);
+  const dispatch = useDispatch(); 
+ 
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h1>Our App</h1>
+        <p>Counter: {counter} </p>
+        <button className="ui green button" onClick={() => dispatch(increment())}> + </button>
+        <button className="ui red button" onClick={() => dispatch(decrement())}> - </button>
+      </div>
+      <div>
+        { !isLogged ? <button style={{marginTop: "20px"}} className="ui inverted primary button" onClick={() => dispatch(loggIn())}>
+          Login 
+        </button>:<div>
+          <p>You are Logged in</p>
+          <button  class="ui inverted teal button" onClick={() => dispatch(loggIn())}>Log out </button>
+          </div>}
+        <button class="ui primary button" style={{marginTop: "20px"}} onClick={() =>       dispatch(reset())} >
+          Reset 
+        </button>
+      </div>
     </div>
   );
 }
